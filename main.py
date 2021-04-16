@@ -12,14 +12,16 @@ from keep_alive import keep_alive
 import youtube_dl
 import os
 from discord.ext import commands 
-# Create instance of a client
+# pip install PyNaCl
 
+# Create instance of a client
 client = discord.Client()
+client = commands.Bot(command_prefix=['!Eggplant '])
 
 #########################
 # Test
 #########################
-sad_words = ["#Spencer", "#Diwen","#Willy", "#Keenan", "#Frendy", "#Dino"]
+sad_words = ["#Spencer", "#Diwen","#Willy", "#Keenan", "#Frendy", "#Dino", "#Vito", "#Luis"]
 
 random_BS = ["You are The BEST!", "Where is Diwen :("]
 
@@ -46,18 +48,23 @@ async def on_ready():
   # format replaces the 0. with the client/user
   print("Hello, Joe's Best was added by {0.user}".format(client))
 
+
 ################################################
 # Called when the Bot receive an message
 ################################################
 @client.event
 async def on_message(message):
+  
+  # We add this to  allow event and command messages
+  await client.process_commands(message)
+  
   # If the message from the bot, ignore
   if message.author == client.user:
     return
   
   msg_one = message.content.lower()
   msg = message.content
-  name = message.author.name
+ # name = message.author.name
 
   # If the message is a command
   if "joe" in msg_one:
@@ -69,7 +76,17 @@ async def on_message(message):
 
   elif msg in sad_words:
     quote = get_quote(msg[1:])
-    await message.channel.send(quote)      
+    await message.channel.send(quote) 
+    
+  elif msg == "$Willy":
+    quote = os.getenv('Willy')
+    quote = "<@" + quote + ">"
+    await message.channel.send(quote) 
+    await message.channel.send(quote) 
+    await message.channel.send(quote) 
+    await message.channel.send(quote) 
+    await message.channel.send(quote) 
+
   # elif any(word in msg for word in sad_words):
   #   quote = get_quote(name)
   #   await message.channel.send(quote)    
@@ -79,7 +96,6 @@ async def on_message(message):
 # Music Bot 
 # ctx = context
 ################################################
-client = commands.Bot(command_prefix=['!Eggplant '])
 
 ####################
 # Play music
@@ -142,7 +158,7 @@ async def leave(ctx):
   voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
   
   # Leave  VOICE Channel
-  if voice.is_connected():
+  if voice:
     await voice.disconnect()    
   else:
       await ctx.send("Joe's Best is too busy with his eggplant. He is not even in the channel! There is no place to leave.")
