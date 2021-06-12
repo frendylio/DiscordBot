@@ -105,6 +105,14 @@ async def on_message(message):
     await message.channel.send(quote) 
     await message.channel.send(quote)      
 
+  elif msg == "$TuPapasitos":
+    quote = "@everyone"
+    await message.channel.send(quote) 
+    await message.channel.send(quote) 
+    await message.channel.send(quote) 
+    await message.channel.send(quote) 
+    await message.channel.send(quote)  
+
   # elif any(word in msg for word in sad_words):
   #   quote = get_quote(name)
   #   await message.channel.send(quote)    
